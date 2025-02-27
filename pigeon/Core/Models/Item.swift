@@ -1,10 +1,3 @@
-//
-//  Item.swift
-//  pigeon
-//
-//  Created by ash on 2/26/25.
-//
-
 import Foundation
 import SwiftData
 

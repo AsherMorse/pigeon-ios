@@ -1,10 +1,3 @@
-//
-//  pigeonApp.swift
-//  pigeon
-//
-//  Created by ash on 2/26/25.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -25,7 +18,7 @@ struct pigeonApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
         }
         .modelContainer(sharedModelContainer)
     }
