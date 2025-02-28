@@ -26,8 +26,6 @@ final class RegisterViewModel: AuthViewModel {
             break
         }
         
-        updateFormState(.loading)
-        
         do {
             let user = try await AuthManager.shared.register(
                 username: username,

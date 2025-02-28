@@ -2,31 +2,23 @@ import SwiftUI
 
 struct PigeonButton: View {
     let title: String
-    let isLoading: Bool
     let style: Style
     let action: () -> Void
     
     init(
         title: String,
-        isLoading: Bool = false,
         style: Style = .primary,
         action: @escaping () -> Void
     ) {
         self.title = title
-        self.isLoading = isLoading
         self.style = style
         self.action = action
     }
     
     var body: some View {
         Button(action: action) {
-            if isLoading {
-                ProgressView()
-                    .tint(style.tintColor)
-            } else {
-                Text(title)
-                    .fontWeight(.semibold)
-            }
+            Text(title)
+                .fontWeight(.semibold)
         }
         .frame(maxWidth: style.maxWidth ? .infinity : nil)
         .padding(.vertical, style.verticalPadding)
@@ -34,7 +26,6 @@ struct PigeonButton: View {
         .background(style.backgroundColor)
         .foregroundColor(style.foregroundColor)
         .cornerRadius(style.cornerRadius)
-        .disabled(isLoading)
     }
 }
 
@@ -83,7 +74,6 @@ extension PigeonButton {
         PigeonButton(title: "Primary Button", style: .primary) {}
         PigeonButton(title: "Secondary Button", style: .secondary) {}
         PigeonButton(title: "Text Button", style: .text) {}
-        PigeonButton(title: "Loading Button", isLoading: true) {}
     }
     .padding()
 } 

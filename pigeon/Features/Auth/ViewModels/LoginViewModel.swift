@@ -21,8 +21,6 @@ final class LoginViewModel: AuthViewModel {
             break
         }
         
-        updateFormState(.loading)
-        
         do {
             let user = try await AuthManager.shared.login(
                 credential: credential,

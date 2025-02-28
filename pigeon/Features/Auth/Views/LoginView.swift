@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LoginView: View {
     @ObservedObject var viewModel: LoginViewModel
+    @ObservedObject var authViewModel: AuthViewModel
     
     var body: some View {
         VStack(spacing: 20) {
@@ -29,15 +30,12 @@ struct LoginView: View {
             
             PigeonButton(
                 title: "Sign In",
-                isLoading: viewModel.formState == .loading,
                 action: viewModel.handleLogin
             )
             
-            PigeonButton(
-                title: "Create Account",
-                style: .text,
-                action: viewModel.switchToRegister
-            )
+            Button("Don't have an account? Register") {
+                authViewModel.switchToRegister()
+            }
         }
         .padding()
         .navigationTitle("Login")

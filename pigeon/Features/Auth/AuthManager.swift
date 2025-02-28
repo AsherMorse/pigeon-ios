@@ -5,12 +5,6 @@ import SwiftUI
 final class AuthManager {
     static let shared = AuthManager()
     
-    enum AuthState {
-        case unauthenticated
-        case authenticated(User)
-        case loading
-    }
-    
     private(set) var state: AuthState = .unauthenticated
     private(set) var currentUser: User?
     
