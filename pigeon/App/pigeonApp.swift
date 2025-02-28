@@ -2,24 +2,36 @@ import SwiftUI
 import SwiftData
 
 @main
-struct pigeonApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-
+struct PigeonApp: App {
+    @State private var authManager = AuthManager.shared
+    
     var body: some Scene {
         WindowGroup {
-            MainView()
+            NavigationStack {
+                Group {
+                    switch authManager.state {
+                    case .authenticated:
+                        // TODO: Replace with your main app view
+                        Text("Authenticated!")
+                            .navigationTitle("Home")
+                            .navigationBarTitleDisplayMode(.large)
+                            .toolbar {
+                                ToolbarItem(placement: .topBarTrailing) {
+                                    Button("Logout") {
+                                        Task {
+                                            await authManager.logout()
+                                        }
+                                    }
+                                }
+                            }
+                            .foregroundStyle(.blue)
+                    case .unauthenticated:
+                        AuthView()
+                    case .loading:
+                        ProgressView("Loading...")
+                    }
+                }
+            }
         }
-        .modelContainer(sharedModelContainer)
     }
 }
