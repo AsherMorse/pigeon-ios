@@ -27,12 +27,6 @@ struct LoginView: View {
                 )
             }
             
-            if case .error(let message) = viewModel.formState {
-                Text(message)
-                    .foregroundColor(.red)
-                    .font(.caption)
-            }
-            
             PigeonButton(
                 title: "Sign In",
                 isLoading: viewModel.formState == .loading,

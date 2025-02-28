@@ -15,7 +15,7 @@ final class LoginViewModel: AuthViewModel {
     private func login() async {
         switch AuthValidation.validateLogin(credential: credential, password: password) {
         case .failure(let error):
-            updateFormState(.error(error.localizedDescription))
+            print("Validation error: \(error)")
             return
         case .success:
             break
@@ -30,10 +30,11 @@ final class LoginViewModel: AuthViewModel {
             )
             print("Logged in as: \(user.username)")
         } catch let authError as AuthError {
-            handleError(authError)
+            print("Login auth failure: \(authError)")
         } catch {
-            updateFormState(.error("An unexpected error occurred"))
+            print("Login failure: \(error)")
         }
+
     }
     
     deinit {

@@ -9,11 +9,6 @@ class AuthViewModel: ObservableObject {
         formState = newState
     }
     
-    func handleError(_ error: AuthError) {
-        let errorMessage = error.errorDescription ?? "Authentication failed"
-        formState = .error(errorMessage)
-    }
-    
     func switchToRegister() { authState = .register }
     func switchToLogin() { authState = .login }
 } 

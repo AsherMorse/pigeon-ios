@@ -20,7 +20,7 @@ final class RegisterViewModel: AuthViewModel {
             password: password
         ) {
         case .failure(let error):
-            updateFormState(.error(error.localizedDescription))
+            print("Validation failure: \(error)")
             return
         case .success:
             break
@@ -36,9 +36,9 @@ final class RegisterViewModel: AuthViewModel {
             )
             print("Registered as: \(user.username)")
         } catch let authError as AuthError {
-            handleError(authError)
+            print("Registration auth failure: \(authError)")
         } catch {
-            updateFormState(.error("An unexpected error occurred"))
+            print("Registration failure: \(error)")
         }
     }
     

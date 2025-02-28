@@ -35,12 +35,6 @@ struct RegisterView: View {
                 )
             }
             
-            if case .error(let message) = viewModel.formState {
-                Text(message)
-                    .foregroundColor(.red)
-                    .font(.caption)
-            }
-            
             PigeonButton(
                 title: "Sign Up",
                 isLoading: viewModel.formState == .loading,

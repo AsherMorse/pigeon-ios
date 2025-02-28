@@ -8,5 +8,4 @@ enum AuthViewState {
 enum AuthFormState: Equatable {
     case idle
     case loading
-    case error(String)
 } 
