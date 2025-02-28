@@ -5,7 +5,7 @@ enum AuthViewState {
     case register
 }
 
-enum AuthState {
+enum AuthState: Equatable {
     case unauthenticated
     case authenticated(User)
     case loading
