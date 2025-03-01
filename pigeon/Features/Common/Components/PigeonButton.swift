@@ -18,7 +18,7 @@ struct PigeonButton: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.headline)
+                .font(style.font)
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(style.backgroundColor)
@@ -33,6 +33,7 @@ extension PigeonButton {
     enum ButtonStyle {
         case primary
         case secondary
+        case text
         
         var backgroundColor: Color {
             switch self {
@@ -40,6 +41,8 @@ extension PigeonButton {
                 return .blue
             case .secondary:
                 return .gray.opacity(0.2)
+            case .text:
+                return .clear
             }
         }
         
@@ -47,8 +50,17 @@ extension PigeonButton {
             switch self {
             case .primary:
                 return .white
-            case .secondary:
+            case .secondary, .text:
                 return .primary
+            }
+        }
+        
+        var font: Font {
+            switch self {
+            case .primary, .secondary:
+                return .headline
+            case .text:
+                return .body
             }
         }
     }
@@ -62,6 +74,10 @@ extension PigeonButton {
         
         PigeonButton(title: "Secondary Button", style: .secondary) {
             print("Secondary tapped")
+        }
+        
+        PigeonButton(title: "Text Button", style: .text) {
+            print("Text tapped")
         }
     }
     .padding()

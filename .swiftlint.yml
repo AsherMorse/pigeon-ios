@@ -40,7 +40,6 @@ opt_in_rules:
   - lower_acl_than_parent
   - modifier_order
   - nimble_operator
-  - nslocalizedstring_key
   - number_separator
   - object_literal
   - operator_usage_whitespace

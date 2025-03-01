@@ -18,15 +18,24 @@ final class AlertManager: ObservableObject {
             
             self.currentAlert = alert
             self.isPresenting = true
-            self.scheduleDismissal(after: alert.style.displayDuration)
+            
+            if !alert.requiresManualDismissal {
+                self.scheduleDismissal(after: alert.style.displayDuration)
+            }
         }
     }
     
-    func present(message: String, title: String = "", style: AlertStyle = .info) {
+    func present(
+        message: String,
+        title: String = "",
+        style: AlertStyle = .info,
+        requiresManualDismissal: Bool = false
+    ) {
         let alert = GenericPigeonAlert(
             title: title.isEmpty ? style.defaultTitle : title,
             description: message,
-            style: style
+            style: style,
+            requiresManualDismissal: requiresManualDismissal
         )
         present(alert)
     }

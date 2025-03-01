@@ -57,7 +57,6 @@ extension AuthError: PigeonAlert {
         }
     }
     
-    // We already have description through LocalizedError
     var description: String {
         return errorDescription ?? "An unknown error occurred"
     }
@@ -81,6 +80,15 @@ extension AuthError: PigeonAlert {
             return ["server_message": message]
         default:
             return nil
+        }
+    }
+    
+    var requiresManualDismissal: Bool {
+        switch self {
+        case .networkError, .serverError, .unknown:
+            return true
+        default:
+            return false
         }
     }
 } 

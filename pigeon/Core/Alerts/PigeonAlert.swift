@@ -5,11 +5,16 @@ protocol PigeonAlert: Error {
     var description: String { get }
     var style: AlertStyle { get }
     var details: [String: String]? { get }
+    var requiresManualDismissal: Bool { get }
 }
 
 extension PigeonAlert {
     var details: [String: String]? {
         return nil
+    }
+    
+    var requiresManualDismissal: Bool {
+        return false
     }
 }
 
@@ -17,6 +22,19 @@ struct GenericPigeonAlert: PigeonAlert {
     let title: String
     let description: String
     let style: AlertStyle
+    let requiresManualDismissal: Bool
+    
+    init(
+        title: String,
+        description: String,
+        style: AlertStyle,
+        requiresManualDismissal: Bool = false
+    ) {
+        self.title = title
+        self.description = description
+        self.style = style
+        self.requiresManualDismissal = requiresManualDismissal
+    }
 }
 
 enum AlertStyle {
