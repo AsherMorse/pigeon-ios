@@ -19,8 +19,9 @@ struct AuthErrorHandling {
             case 400:
                 if apiResponse.code == APIErrorCode.validationError.rawValue {
                     throw AuthError.validationError(message: extractValidationErrorMessage(from: apiResponse))
+                } else {
+                    throw AuthError.serverError(message: "Bad Request \(httpResponse.statusCode)")
                 }
-                fallthrough
                 
             case 401:
                 if apiResponse.code == APIErrorCode.invalidToken.rawValue {
