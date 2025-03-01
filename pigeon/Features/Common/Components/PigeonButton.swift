@@ -19,13 +19,13 @@ struct PigeonButton: View {
         Button(action: action) {
             Text(title)
                 .fontWeight(.semibold)
+                .frame(maxWidth: style.maxWidth ? .infinity : nil)
+                .padding(.vertical, style.verticalPadding)
+                .padding(.horizontal, style.horizontalPadding)
+                .background(style.backgroundColor)
+                .foregroundColor(style.foregroundColor)
+                .cornerRadius(style.cornerRadius)
         }
-        .frame(maxWidth: style.maxWidth ? .infinity : nil)
-        .padding(.vertical, style.verticalPadding)
-        .padding(.horizontal, style.horizontalPadding)
-        .background(style.backgroundColor)
-        .foregroundColor(style.foregroundColor)
-        .cornerRadius(style.cornerRadius)
     }
 }
 

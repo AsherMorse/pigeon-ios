@@ -48,7 +48,7 @@ struct PigeonAlertView: View {
         .background {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .fill(.background)
-                .shadow(color: .black.opacity(0.1), radius: 10, y: 5)
+                .shadow(color: Color.primary.opacity(0.15), radius: 10, y: 5)
         }
         .offset(y: offset)
         .opacity(opacity)
