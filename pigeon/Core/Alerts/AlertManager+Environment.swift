@@ -20,13 +20,16 @@ struct AlertOverlayModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content.overlay(alignment: .top) {
-            if manager.isPresenting, let alert = manager.currentAlert {
-                PigeonAlertView(alert: alert) {
-                    manager.dismiss()
+            ZStack {
+                if manager.isPresenting, let alert = manager.currentAlert {
+                    PigeonAlertView(alert: alert) {
+                        manager.dismiss()
+                    }
+                    .padding()
+                    .transition(.move(edge: .top).combined(with: .opacity))
                 }
-                .padding()
-                .transition(.move(edge: .top).combined(with: .opacity))
             }
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: manager.isPresenting)
         }
     }
 }

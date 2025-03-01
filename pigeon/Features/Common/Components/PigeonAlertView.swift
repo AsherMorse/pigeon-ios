@@ -4,9 +4,6 @@ struct PigeonAlertView: View {
     let alert: PigeonAlert
     let onDismiss: () -> Void
     
-    @State private var offset: CGFloat = -100
-    @State private var opacity: Double = 0
-    
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 12) {
@@ -50,17 +47,7 @@ struct PigeonAlertView: View {
                 .fill(.background)
                 .shadow(color: Color.primary.opacity(0.15), radius: 10, y: 5)
         }
-        .offset(y: offset)
-        .opacity(opacity)
-        .onAppear {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                offset = 0
-                opacity = 1
-            }
-        }
-        .onTapGesture {
-            onDismiss()
-        }
+        .onTapGesture(perform: onDismiss)
     }
 }
 

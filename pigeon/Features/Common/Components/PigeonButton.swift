@@ -2,12 +2,12 @@ import SwiftUI
 
 struct PigeonButton: View {
     let title: String
-    let style: Style
     let action: () -> Void
+    let style: ButtonStyle
     
     init(
         title: String,
-        style: Style = .primary,
+        style: ButtonStyle = .primary,
         action: @escaping () -> Void
     ) {
         self.title = title
@@ -18,52 +18,37 @@ struct PigeonButton: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .fontWeight(.semibold)
-                .frame(maxWidth: style.maxWidth ? .infinity : nil)
-                .padding(.vertical, style.verticalPadding)
-                .padding(.horizontal, style.horizontalPadding)
+                .font(.headline)
+                .frame(maxWidth: .infinity)
+                .padding()
                 .background(style.backgroundColor)
                 .foregroundColor(style.foregroundColor)
-                .cornerRadius(style.cornerRadius)
+                .cornerRadius(10)
         }
+        .buttonStyle(.plain)
     }
 }
 
 extension PigeonButton {
-    enum Style {
+    enum ButtonStyle {
         case primary
         case secondary
-        case text
         
         var backgroundColor: Color {
             switch self {
-            case .primary: return .blue
-            case .secondary: return .gray.opacity(0.1)
-            case .text: return .clear
+            case .primary:
+                return .blue
+            case .secondary:
+                return .gray.opacity(0.2)
             }
         }
         
         var foregroundColor: Color {
             switch self {
-            case .primary: return .white
-            case .secondary, .text: return .blue
-            }
-        }
-        
-        var tintColor: Color {
-            switch self {
-            case .primary: return .white
-            case .secondary, .text: return .blue
-            }
-        }
-        
-        var cornerRadius: CGFloat { 10 }
-        var verticalPadding: CGFloat { 16 }
-        var horizontalPadding: CGFloat { 16 }
-        var maxWidth: Bool {
-            switch self {
-            case .primary, .secondary: return true
-            case .text: return false
+            case .primary:
+                return .white
+            case .secondary:
+                return .primary
             }
         }
     }
@@ -71,9 +56,13 @@ extension PigeonButton {
 
 #Preview {
     VStack(spacing: 20) {
-        PigeonButton(title: "Primary Button", style: .primary) {}
-        PigeonButton(title: "Secondary Button", style: .secondary) {}
-        PigeonButton(title: "Text Button", style: .text) {}
+        PigeonButton(title: "Primary Button") {
+            print("Primary tapped")
+        }
+        
+        PigeonButton(title: "Secondary Button", style: .secondary) {
+            print("Secondary tapped")
+        }
     }
     .padding()
-} 
+}

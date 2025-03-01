@@ -38,6 +38,10 @@ final class AlertManager: ObservableObject {
             self.isPresenting = false
             self.dismissTimer?.invalidate()
             self.dismissTimer = nil
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.currentAlert = nil
+            }
         }
     }
     
