@@ -7,29 +7,16 @@ struct PigeonApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                Group {
-                    if case .authenticated = authManager.state {
-                        // TODO: Replace with your main app view
-                        Text("Authenticated!")
-                            .navigationTitle("Home")
-                            .navigationBarTitleDisplayMode(.large)
-                            .toolbar {
-                                ToolbarItem(placement: .topBarTrailing) {
-                                    Button("Logout") {
-                                        Task {
-                                            await authManager.logout()
-                                        }
-                                    }
-                                }
-                            }
-                            .foregroundStyle(.blue)
-                    } else {
+            Group {
+                if case .authenticated = authManager.state {
+                    MainTabView()
+                } else {
+                    NavigationStack {
                         AuthView()
                     }
                 }
-                .showLoading(when: authManager.state == .loading)
             }
+            .showLoading(when: authManager.state == .loading)
             .withAlertOverlay()
         }
     }
