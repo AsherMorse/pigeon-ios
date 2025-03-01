@@ -8,14 +8,21 @@ struct PigeonApp: App {
     var body: some Scene {
         WindowGroup {
             Group {
-                if case .authenticated = authManager.state {
+                if authManager.isCheckingInitialAuth {
+                    SplashScreen()
+                        .transition(.opacity)
+                } else if case .authenticated = authManager.state {
                     MainTabView()
+                        .transition(.opacity)
                 } else {
                     NavigationStack {
                         AuthView()
                     }
+                    .transition(.opacity)
                 }
             }
+            .animation(.easeInOut, value: authManager.isCheckingInitialAuth)
+            .animation(.easeInOut, value: authManager.state)
             .showLoading(when: authManager.state == .loading)
             .withAlertOverlay()
         }

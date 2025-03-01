@@ -7,6 +7,7 @@ final class AuthManager {
     
     private(set) var state: AuthState = .unauthenticated
     private(set) var currentUser: User?
+    private(set) var isCheckingInitialAuth = true
     
     private let authService: AuthService
     private let tokenManager: TokenManager
@@ -20,6 +21,9 @@ final class AuthManager {
         
         Task {
             await checkAuthStatus()
+            await MainActor.run {
+                self.isCheckingInitialAuth = false
+            }
         }
     }
     
