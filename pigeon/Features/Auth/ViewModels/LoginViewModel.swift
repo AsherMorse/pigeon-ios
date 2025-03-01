@@ -5,6 +5,7 @@ final class LoginViewModel: AuthViewModel {
     @Published var credential = ""
     @Published var password = ""
     
+    private let alertManager = AlertManager.shared
     private var loginTask: Task<Void, Never>?
     
     func handleLogin() {
@@ -15,7 +16,11 @@ final class LoginViewModel: AuthViewModel {
     private func login() async {
         switch AuthValidation.validateLogin(credential: credential, password: password) {
         case .failure(let error):
-            print("Validation error: \(error)")
+            alertManager.present(
+                message: error.localizedDescription,
+                title: "Validation Error",
+                style: .warning
+            )
             return
         case .success:
             break
@@ -26,13 +31,20 @@ final class LoginViewModel: AuthViewModel {
                 credential: credential,
                 password: password
             )
-            print("Logged in as: \(user.username)")
+            alertManager.present(
+                message: "Successfully logged in as \(user.username)",
+                title: "Welcome Back",
+                style: .success
+            )
         } catch let authError as AuthError {
-            print("Login auth failure: \(authError)")
+            alertManager.present(authError)
         } catch {
-            print("Login failure: \(error)")
+            alertManager.present(
+                message: error.localizedDescription,
+                title: "Error",
+                style: .error
+            )
         }
-
     }
     
     deinit {

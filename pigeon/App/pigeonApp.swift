@@ -30,6 +30,7 @@ struct PigeonApp: App {
                 }
                 .showLoading(when: authManager.state == .loading)
             }
+            .withAlertOverlay()
         }
     }
 }

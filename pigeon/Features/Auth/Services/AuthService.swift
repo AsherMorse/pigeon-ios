@@ -25,26 +25,11 @@ final class AuthService {
             throw AuthError.networkError(NSError(domain: "Invalid response", code: -1))
         }
         
-        switch httpResponse.statusCode {
-        case 200, 201:
-            break
-        case 401:
-            throw AuthError.invalidCredentials
-        case 409:
-            throw AuthError.resourceExists(message: "Account already exists")
-        default:
-            throw AuthError.serverError(message: "Server error \(httpResponse.statusCode)")
-        }
-        
-        do {
-            let apiResponse = try JSONDecoder().decode(APIResponse<AuthTokens>.self, from: data)
-            guard let tokens = apiResponse.data else {
-                throw AuthError.serverError(message: "Invalid response format")
-            }
-            return tokens
-        } catch {
-            throw AuthError.serverError(message: "Failed to parse response")
-        }
+        return try AuthErrorHandling.processResponse(
+            data: data,
+            httpResponse: httpResponse,
+            decodingType: AuthTokens.self
+        )
     }
     
     func login(credential: String, password: String) async throws -> AuthTokens {
@@ -62,24 +47,11 @@ final class AuthService {
             throw AuthError.networkError(NSError(domain: "Invalid response", code: -1))
         }
         
-        switch httpResponse.statusCode {
-        case 200:
-            break
-        case 401:
-            throw AuthError.invalidCredentials
-        default:
-            throw AuthError.serverError(message: "Server error \(httpResponse.statusCode)")
-        }
-        
-        do {
-            let apiResponse = try JSONDecoder().decode(APIResponse<AuthTokens>.self, from: data)
-            guard let tokens = apiResponse.data else {
-                throw AuthError.serverError(message: "Invalid response format")
-            }
-            return tokens
-        } catch {
-            throw AuthError.serverError(message: "Failed to parse response")
-        }
+        return try AuthErrorHandling.processResponse(
+            data: data,
+            httpResponse: httpResponse,
+            decodingType: AuthTokens.self
+        )
     }
     
     func logout(refreshToken: String) async throws {
@@ -114,24 +86,11 @@ final class AuthService {
             throw AuthError.networkError(NSError(domain: "Invalid response", code: -1))
         }
         
-        switch httpResponse.statusCode {
-        case 200:
-            break
-        case 401:
-            throw AuthError.invalidRefreshToken
-        default:
-            throw AuthError.serverError(message: "Server error \(httpResponse.statusCode)")
-        }
-        
-        do {
-            let apiResponse = try JSONDecoder().decode(APIResponse<AuthTokens>.self, from: data)
-            guard let tokens = apiResponse.data else {
-                throw AuthError.serverError(message: "Invalid response format")
-            }
-            return tokens
-        } catch {
-            throw AuthError.serverError(message: "Failed to parse response")
-        }
+        return try AuthErrorHandling.processResponse(
+            data: data,
+            httpResponse: httpResponse,
+            decodingType: AuthTokens.self
+        )
     }
     
     func validateSession(accessToken: String) async throws -> User {
@@ -147,23 +106,10 @@ final class AuthService {
             throw AuthError.networkError(NSError(domain: "Invalid response", code: -1))
         }
         
-        switch httpResponse.statusCode {
-        case 200:
-            break
-        case 401:
-            throw AuthError.invalidToken
-        default:
-            throw AuthError.serverError(message: "Server error \(httpResponse.statusCode)")
-        }
-        
-        do {
-            let apiResponse = try JSONDecoder().decode(APIResponse<User>.self, from: data)
-            guard let user = apiResponse.data else {
-                throw AuthError.serverError(message: "Invalid response format")
-            }
-            return user
-        } catch {
-            throw AuthError.serverError(message: "Failed to parse response")
-        }
+        return try AuthErrorHandling.processResponse(
+            data: data,
+            httpResponse: httpResponse,
+            decodingType: User.self
+        )
     }
 }

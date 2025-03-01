@@ -6,6 +6,7 @@ final class RegisterViewModel: AuthViewModel {
     @Published var email = ""
     @Published var password = ""
     
+    private let alertManager = AlertManager.shared
     private var registrationTask: Task<Void, Never>?
     
     func handleRegister() {
@@ -20,7 +21,11 @@ final class RegisterViewModel: AuthViewModel {
             password: password
         ) {
         case .failure(let error):
-            print("Validation failure: \(error)")
+            alertManager.present(
+                message: error.localizedDescription,
+                title: "Validation Error",
+                style: .warning
+            )
             return
         case .success:
             break
@@ -32,11 +37,19 @@ final class RegisterViewModel: AuthViewModel {
                 email: email,
                 password: password
             )
-            print("Registered as: \(user.username)")
+            alertManager.present(
+                message: "Successfully registered as \(user.username)",
+                title: "Welcome",
+                style: .success
+            )
         } catch let authError as AuthError {
-            print("Registration auth failure: \(authError)")
+            alertManager.present(authError)
         } catch {
-            print("Registration failure: \(error)")
+            alertManager.present(
+                message: error.localizedDescription,
+                title: "Error",
+                style: .error
+            )
         }
     }
     
